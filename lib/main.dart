@@ -1,4 +1,5 @@
-import 'package:ampiy_app_assignment/pages/home_page.dart';
+import 'package:ampiy_app_assignment/components/bottom_nav_bar.dart';
+//import 'package:ampiy_app_assignment/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: BottomNavBar(),
     );
   }
 }

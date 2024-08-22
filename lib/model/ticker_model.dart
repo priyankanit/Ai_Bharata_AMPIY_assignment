@@ -1,16 +1,18 @@
 class Ticker {
   final String symbol;  // Symbol (e.g., BTCINR)
-  final String priceChange;  // Price change (small 'p')
-  final String priceChangePercent;  // Price change percent (capital 'P')
-  final String currentPrice;  // Current price ('c')
-  final String openPrice;  // Open price ('o')
-  final String highPrice;  // High price ('h')
-  final String lowPrice;  // Low price ('l')
-  final String bestBidPrice;  // Best bid price ('b')
-  final String bestAskPrice;  // Best ask price ('a')
+  final String token;
+  final double priceChange;  // Price change (small 'p')
+  final double priceChangePercent;  // Price change percent (capital 'P')
+  final double currentPrice;  // Current price ('c')
+  final double openPrice;  // Open price ('o')
+  final double highPrice;  // High price ('h')
+  final double lowPrice;  // Low price ('l')
+  final double bestBidPrice;  // Best bid price ('b')
+  final double bestAskPrice;  // Best ask price ('a')
 
   Ticker({
     required this.symbol,
+    required this.token,
     required this.priceChange,
     required this.priceChangePercent,
     required this.currentPrice,
@@ -25,14 +27,15 @@ class Ticker {
   factory Ticker.fromJson(Map<String, dynamic> json) {
     return Ticker(
       symbol: json['s'] as String,
-      priceChange: (json['p']) as String,
-      priceChangePercent: (json['P']) as String,
-      currentPrice: (json['c']) as String,
-      openPrice: (json['o']) as String,
-      highPrice: (json['h']) as String,
-      lowPrice: (json['l']) as String,
-      bestBidPrice: (json['b']) as String,
-      bestAskPrice: (json['a']) as String,
+      token: json['T'] as String,
+      priceChange: double.parse(json['p']),
+      priceChangePercent: double.parse(json['P']),
+      currentPrice: double.parse(json['c']),
+      openPrice: double.parse(json['o']),
+      highPrice: double.parse(json['h']),
+      lowPrice: double.parse(json['l']),
+      bestBidPrice: double.parse(json['b']),
+      bestAskPrice: double.parse(json['a']),
     );
   }
 }

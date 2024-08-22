@@ -7,6 +7,7 @@ class WebSocketService{
   
   // WebSocket channel
  late WebSocketChannel _channel;
+ Function(List<Ticker>)? onDataReceived;
 
   // Function to initialize the websocket connection
   void connect(){
@@ -24,38 +25,22 @@ class WebSocketService{
     }));
 
     print('Subscription msg sent');
+
+    _channel.stream.listen((message) {
+      final decodedMessage = jsonDecode(message);
+      final List<dynamic> data = decodedMessage['data'];
+      final tickers = data.map((item) => Ticker.fromJson(item)).toList();
+
+      if (onDataReceived != null) {
+        onDataReceived!(tickers);
+      }
+    }, onError: (error) {
+      print("WebSocket error: $error");
+    });
+  }
+   void disconnect() {
+    _channel.sink.close();
   }
 
-  // Function to listen to the websocket stream
-  // Stream<Ticker> getStream(){
-  //   return _channel.stream.map((message){
-  //     final decodedMessage = jsonDecode(message);
-  //     print('Message received: $decodedMessage');
-  //     return Ticker.fromJson(decodedMessage['data'][0]);
-  //   }).handleError((error){
-  //     print('Websocket error: $error');
-  //   });
-  // }
+  }
 
-  Stream<Ticker?> getStream() {
-  return _channel.stream.map((message) {
-    try{
-    final decodedMessage = jsonDecode(message);
-    print("Raw message: $message");
-    print("Decoded message: $decodedMessage");
-
-    // Check if the data key exists and is properly formatted
-      return Ticker.fromJson(decodedMessage['data'][0]);
-    } catch(error){
-      print('Error parsing JSON: $error');
-      return null;
-    }
-  }).where((ticker) => ticker != null);
-}
- 
- // Function to close the websocket connection
- void disconnect(){
-  _channel.sink.close();
- }
-
-}
