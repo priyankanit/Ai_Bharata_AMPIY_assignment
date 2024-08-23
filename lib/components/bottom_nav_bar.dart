@@ -50,8 +50,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.circle_outlined),
+              icon: Icon(Icons.circle_outlined,),
               label: 'Coins',
+              
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_balance_wallet),
