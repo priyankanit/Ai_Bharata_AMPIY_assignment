@@ -21,7 +21,7 @@ This project is an assignment for the Flutter internship interview. The task inv
 <img src="assets/Homepage.png" alt="AMPIY App Home Screen" width="300" height="500">
 
 ### Coins Screen
-<img src="assets/CoinsPage.png" alt="AMPIY App Coins Screen" width="300" height="500">
+<img src="assets/Coinspage.png" alt="AMPIY App Coins Screen" width="300" height="500">
 
 ## Installation
 
