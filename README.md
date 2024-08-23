@@ -18,10 +18,10 @@ This project is an assignment for the Flutter internship interview. The task inv
 ## Screenshots
 
 ### Home Screen
-<img src="assets/Homepage.png" alt="AMPIY App Home Screen" width="320" height="500">
+<img src="assets/Homepage.png" alt="AMPIY App Home Screen" width="300" height="500">
 
 ### Coins Screen
-<img src="assets/CoinsPage.png" alt="AMPIY App Coins Screen" width="320" height="500">
+<img src="assets/CoinsPage.png" alt="AMPIY App Coins Screen" width="300" height="500">
 
 ## Installation
 
@@ -37,17 +37,18 @@ To run this project locally, follow these steps:
 ```
 git clone https://github.com/yourusername/ampiy-app-assignment.git
 cd ampiy-app-assignment
+```
 
 ### Install Dependencies
-
 ```
 flutter pub get
+```
 
 ### Run the app
 
 ```
 flutter run
-
+```
 ### Directory Structure
 ```
 ampiy-app-assignment/
@@ -61,7 +62,7 @@ ampiy-app-assignment/
 |- test/                   # Test files
 |- pubspec.yaml            # Flutter dependencies and assets configuration
 |- README.md               # Documentation file
-
+```
 ## Overview
 
 1.There were couple of things that could have been better, such as the icons in Coins screen. It would've been great to have another API that returns URL of the icons and subnames of the coins we get from websocket API.
