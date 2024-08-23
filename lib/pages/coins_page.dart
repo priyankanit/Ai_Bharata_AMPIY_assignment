@@ -138,7 +138,7 @@ final Map<String, String> symbolToTokenMap = {
                         ),
                         const SizedBox(width: 16,),
                           Container(
-                            width: 90,
+                            width: 100,
                             height: 40,
                             padding: 
                           const EdgeInsets.symmetric(horizontal:12, vertical: 4),
