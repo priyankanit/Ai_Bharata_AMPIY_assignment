@@ -53,11 +53,13 @@ _tabController = TabController(length: 4, vsync: this);
         ],
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(icon: Icon(Icons.add_circle_rounded), text: 'Buy'),
-            Tab(icon: Icon(Icons.remove_circle_rounded),text: 'Sell'),
-            Tab(icon: Icon(Icons.person_2_rounded), text: 'Referral'),
-             Tab(icon: Icon(Icons.video_camera_back_rounded), text: 'Tutorial'),
+          indicatorColor: Colors.transparent,
+          tabs:  [
+            Tab(icon: Icon(Icons.add_circle_rounded, color: Colors.grey[850],), 
+            text: 'Buy'),
+            const Tab(icon: Icon(Icons.remove_circle_rounded),text: 'Sell'),
+            const Tab(icon: Icon(Icons.person_2_rounded), text: 'Referral'),
+             const Tab(icon: Icon(Icons.video_camera_back_rounded), text: 'Tutorial'),
           ],
         ),
       ),
@@ -67,6 +69,8 @@ _tabController = TabController(length: 4, vsync: this);
           _buildHomePageContent(context),
          const Center(child: Text('Buy')),
          const Center(child: Text('Sell')),
+         const Center(child: Text('Referral')),
+         const Center(child: Text('Tutorial')),
         ],
       ),
 
@@ -106,13 +110,15 @@ _tabController = TabController(length: 4, vsync: this);
               ),
             ),
             const SizedBox(height: 20),
-            _buildBalanceCard(context),
+            _buildSipCard(context),
            const SizedBox(height: 20),
             _buildPerformanceGraph(context),
             const SizedBox(height: 20),
             _buildPopularCoins(context),
             const SizedBox(height: 20),
             _buildTrendingCoins(context),
+             const SizedBox(height: 20),
+             _buildZones(context),
             const SizedBox(height: 20),
             _buildNewsUpdates(context),
           ],
@@ -121,7 +127,7 @@ _tabController = TabController(length: 4, vsync: this);
     );
   }
 
-  Widget _buildBalanceCard(BuildContext context) {
+  Widget _buildSipCard(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 4,
@@ -138,7 +144,7 @@ _tabController = TabController(length: 4, vsync: this);
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(onPressed: () {}, child: const Text('Start SIP')),
-                OutlinedButton(onPressed: () {}, child: const Text('View History')),
+               
               ],
             ),
           ],
@@ -203,6 +209,13 @@ _tabController = TabController(length: 4, vsync: this);
   }
 
   Widget _buildPopularCoins(BuildContext context) {
+    final popularCoins = [
+    {'name': 'Bitcoin', 'image': 'assets/bitcoin.png', 'change': '10.45%'},
+    {'name': 'Ethereum', 'image': 'assets/ethereum.png', 'change': '5.32%'},
+    {'name': 'Cardano', 'image': 'assets/cardano.png', 'change': '7.89%'},
+    {'name': 'Ripple', 'image': 'assets/atom.png', 'change': '4.76%'},
+    {'name': 'Polkadot', 'image': 'assets/trx.png', 'change': '6.50%'},
+  ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -210,21 +223,64 @@ _tabController = TabController(length: 4, vsync: this);
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),),
         const SizedBox(height: 8),
         Container(
-          height: 100,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: List.generate(5, (index) {
-              return Container(
-                width: 100,
-                margin: const EdgeInsets.only(right: 16),
-                child: Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  elevation: 4,
-                  child: Center(child: Text('Coin ${index + 1}')),
+          height: 120,
+          child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: popularCoins.length,
+          itemBuilder: (context, index) {
+            final coin = popularCoins[index];
+            return Container(
+              width: 150,
+              margin: const EdgeInsets.only(right: 16),
+              child: Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    coin['name']!,
+                                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'This month: ${coin['change']}',
+                                    style: TextStyle(
+                                      color: double.parse(coin['change']!.replaceAll('%', '')) > 0 ? Colors.green : Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage(coin['image']!),
+                          radius: 15,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              );
-            }),
-          ),
+              ),
+            );
+          },
+        ),
         ),
       ],
     );
@@ -286,7 +342,7 @@ final List<Map<String, dynamic>> trendingCoins = [
         ],
       },
       {
-        'name': 'Polkadot (DOT)',
+        'name': 'Cosmos (ATOM)',
         'logo': 'assets/atom.png',
         'price': 35.0,
         'change': 4.20,
@@ -319,41 +375,44 @@ final List<Map<String, dynamic>> trendingCoins = [
                 width: 40,
                 height: 40,
               ),
-              title: Text(coin['name']),
+              title: Text(coin['name'], textAlign: TextAlign.justify,),
               subtitle: Row(
                 children: [
-                  Container(
-                    width: 50,
-                    height: 30,
-                    child: LineChart(
-                      LineChartData(
-                        gridData: const FlGridData(show: false),
-                        titlesData: const FlTitlesData(show: false),
-                        borderData: FlBorderData(show: false),
-                        lineBarsData: [
-                          LineChartBarData(
-                            spots: coin['priceGraph'],
-                            isCurved: true,
-                            color: isPositive ? Colors.green : Colors.red,
-                            barWidth: 2,
-                            dotData: const FlDotData(show: false),
-                            belowBarData: BarAreaData(
-                              show: true,
-                              color: 
-                                isPositive
-                                    ? Colors.green.withOpacity(0.3)
-                                    : Colors.red.withOpacity(0.3)
-          
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                   const Spacer(),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 20),
                   Text('₹${coin['price']}',
                       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Container(
+                                            width: 50,
+                                            height: 30,
+                                            child: LineChart(
+                        LineChartData(
+                          gridData: const FlGridData(show: false),
+                          titlesData: const FlTitlesData(show: false),
+                          borderData: FlBorderData(show: false),
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: coin['priceGraph'],
+                              isCurved: true,
+                              color: isPositive ? Colors.green : Colors.red,
+                              barWidth: 2,
+                              dotData: const FlDotData(show: false),
+                              belowBarData: BarAreaData(
+                                show: true,
+                                color: 
+                                  isPositive
+                                      ? Colors.green.withOpacity(0.3)
+                                      : Colors.red.withOpacity(0.3)
+                                  
+                              ),
+                            ),
+                          ],
+                        ),
+                                            ),
+                                          ),
+                      ),
                 ],
               ),
               trailing: Text(
@@ -370,6 +429,133 @@ final List<Map<String, dynamic>> trendingCoins = [
       ],
     );
   }
+
+Widget _buildZones(BuildContext context) {
+  final zones = [
+    {
+      'name': 'NFT',
+      'coinsCount': 15,
+      'coins': [
+        {'name': 'Axie Infinity', 'image': 'assets/axis.png', 'change': '8.5%'},
+        {'name': 'Enjin Coin', 'image': 'assets/enjin.png', 'change': '-3.2%'},
+        {'name': 'Decentraland', 'image': 'assets/decentraland.png', 'change': '5.0%'},
+      ],
+    },
+    {
+      'name': 'PoS',
+      'coinsCount': 10,
+      'coins': [
+        {'name': 'Cardano', 'image': 'assets/cardano.png', 'change': '7.8%'},
+        {'name': 'Cosmos', 'image': 'assets/atom.png', 'change': '-1.5%'},
+        {'name': 'Solana', 'image': 'assets/solana.png', 'change': '2.9%'},
+      ],
+    },
+    {
+      'name': 'DeFi',
+      'coinsCount': 12,
+      'coins': [
+        {'name': 'Uniswap', 'image': 'assets/uniswap.png', 'change': '4.1%'},
+        {'name': 'Aave', 'image': 'assets/money.png', 'change': '-2.0%'},
+        {'name': 'Chainlink', 'image': 'assets/chainlink.png', 'change': '6.3%'},
+      ],
+    },
+    {
+      'name': 'Platform',
+      'coinsCount': 8,
+      'coins': [
+        {'name': 'Ethereum', 'image': 'assets/ethereum.png', 'change': '5.7%'},
+        {'name': 'Binance Coin', 'image': 'assets/binance.png', 'change': '-0.8%'},
+        {'name': 'Avalanche', 'image': 'assets/avalanche.png', 'change': '3.4%'},
+      ],
+    },
+  ];
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text('Zones', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold)),
+      const SizedBox(height: 8),
+      ListView.builder(
+        physics: const NeverScrollableScrollPhysics(), // Prevent internal scrolling
+        shrinkWrap: true, // Use shrinkWrap to make ListView take only necessary height
+        itemCount: zones.length,
+        itemBuilder: (context, index) {
+          final zone = zones[index];
+          return Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            child: Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${zone['name']} (${zone['coinsCount']} Coins)',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      height: 80,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: (zone['coins'] as List).length,
+                        itemBuilder: (context, coinIndex) {
+                          final coin = (zone['coins'] as List)[coinIndex];
+                          return Container(
+                            width: 150,
+                            margin: const EdgeInsets.only(right: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: AssetImage(coin['image']!),
+                                      radius: 15,
+                                    ),
+                                    const SizedBox(width: 10,),
+                                    Text(
+                                      coin['name']!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(fontWeight: FontWeight.bold, fontSize: 13),
+                                    ),
+                                    
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Change: ${coin['change']}',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    color: double.parse(coin['change']!.replaceAll('%', '')) > 0
+                                        ? Colors.green
+                                        : Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    ],
+  );
+}
 
 
   Widget _buildNewsUpdates(BuildContext context) {
