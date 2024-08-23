@@ -16,9 +16,8 @@ This project is an assignment for the Flutter internship interview. The task inv
    - Integrate WebSocket to fetch and display real-time cryptocurrency data on the Coins Screen.
 
 ## Screen Recording
-<video width="320" height="240" controls>
-  <source src="assets/Video/AMPIY-Assignment-Recording.mp4" type="video/mp4">
-</video>
+[Link to the video](assets/Video/AMPIY-Assignment-Recording.mp4)
+
 
 ## Screenshots
 
